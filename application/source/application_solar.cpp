@@ -5,6 +5,8 @@
 #include "shader_loader.hpp"
 #include "model_loader.hpp"
 
+#include "camera_Node.h"
+
 #include <glbinding/gl/gl.h>
 // use gl definitions from glbinding 
 using namespace gl;
@@ -18,6 +20,12 @@ using namespace gl;
 #include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
+
+double prev_x = 0.0f;
+double prev_y = 0.0f;
+double horiz_angle = 0.0f;
+double vert_angle = 0.0f;
+bool first_time_m = true;
 
 ApplicationSolar::ApplicationSolar(std::string const& resource_path)
  :Application{resource_path}
@@ -133,6 +141,8 @@ void ApplicationSolar::initializeGeometry() {
 ///////////////////////////// callback functions for window events ////////////
 // handle key input
 void ApplicationSolar::keyCallback(int key, int action, int mods) {
+
+  //float Speed = 2.5 * deltaTime;  // need to implement delta time, move cam * speed
   if (key == GLFW_KEY_W  && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
     m_view_transform = glm::translate(m_view_transform, glm::fvec3{0.0f, 0.0f, -0.1f});
     uploadView();
@@ -141,11 +151,39 @@ void ApplicationSolar::keyCallback(int key, int action, int mods) {
     m_view_transform = glm::translate(m_view_transform, glm::fvec3{0.0f, 0.0f, 0.1f});
     uploadView();
   }
+
+  // this works with W and S, doesnt do anything yet? do i still connect it to the cam?
 }
 
 //handle delta mouse movement input
 void ApplicationSolar::mouseCallback(double pos_x, double pos_y) {
   // mouse handling
+    if (first_time_m)
+    {
+        prev_x = pos_x;
+        prev_y = pos_y;
+        first_time_m = false;
+    }
+    float xoff = pos_x - prev_x;
+    float yoff = pos_y - prev_y; // need to reverse?
+    prev_x = pos_x;
+    prev_y = pos_y;
+
+    // object?.    camera_Node::addFov(xoff);
+    //object?.     camera_Node::addPitch(yoff);
+
+    horiz_angle += xoff * 0.5; 
+    vert_angle += yoff * 0.5;
+    if (vert_angle > 90) vert_angle = 90; // no out of bounds
+    if (vert_angle < -90) vert_angle = -90;
+
+
+    glm::vec3 front;
+   //probably better to put that into camera_node as an extra function? make it actually work
+   // front.x = cos(glm::radians(camera_Node::getYaw)) * cos(glm::radians(camera_Node::getPitch));
+   // front.y = sin(glm::radians(camera_Node::getPitch));
+   // front.z = sin(glm::radians(camera_Node::getYaw)) * cos(glm::radians(camera_Node::getPitch));
+    
 }
 
 //handle resizing
@@ -160,4 +198,7 @@ void ApplicationSolar::resizeCallback(unsigned width, unsigned height) {
 // exe entry point
 int main(int argc, char* argv[]) {
   Application::run<ApplicationSolar>(argc, argv, 3, 2);
+  glLoadIdentity();
+  glRotatef(vert_angle, 1, 0, 0);
+  glRotatef(horiz_angle, 0, 1, 0);
 }
