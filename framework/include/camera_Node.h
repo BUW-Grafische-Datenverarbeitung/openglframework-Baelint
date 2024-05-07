@@ -1,8 +1,10 @@
 #ifndef CAMERA_NODE_HPP
 #define CAMERA_NODE_HPP
 #include <glm/glm.hpp>
+#include <Node.hpp>
 
-struct camera_Node //usally used for smaller/easier things, default is public so we set our get/set variables to private for better protection
+struct camera_Node : public Node //usally used for smaller/easier things, default is public so we set our get/set variables to private for better protection
+                                 //Added it being a child of Node.
 {
 private:
 	bool isPerspective = true; // or better false? don't want to leave it uninitialized to avoid mistakes calling an undef
