@@ -13,7 +13,7 @@ void camera_Node::setEnabled(bool boolean)
 {
 	isEnabled = boolean;
 }
-void camera_Node::setProjectionMat(glm::mat4 matrix)
+void camera_Node::setProjectionMat(glm::mat4 const& matrix) //TODO: lookup const ref
 {
 	projectionMatrix = matrix;
 }

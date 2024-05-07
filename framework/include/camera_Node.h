@@ -28,7 +28,7 @@ public:
 	bool getEnabled() const;
 
 	void setEnabled(bool boolean);
-	void setProjectionMat(glm::mat4 matrix);
+	void setProjectionMat(glm::mat4 const& matrix); //TODO: lookup const ref
 };
 
 #endif

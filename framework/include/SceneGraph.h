@@ -22,7 +22,7 @@ public:
 
     std::string getName() const;
     //Node::Node& getRoot() const; //TODO: lookup const correctness for complex datatypes like objects regarding functions/getters
-    void setName(std::string new_name);  //TODO: lookup const correctness for setters, usally const& for complex things in constructor, but here?
+    void setName(std::string new_name);  //TODO: lookup const correctness and when to use ref for setters, usally const& for complex things in constructor, but here?
     //void setRoot(Node::Node new_root const&);
 
 };
