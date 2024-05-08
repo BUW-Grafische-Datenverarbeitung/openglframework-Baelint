@@ -7,11 +7,11 @@ Node Node::getParent() {
     return parent_;
 }
 
-void Node::setParent(const Node parent) {
+void Node::setParent(const Node& parent) {
 parent_ = parent;
 }
 
-Node Node::getChild(std::string childName) {
+Node Node::getChild(std::string const& childName) {
     return Node(); // write name dependant searching, im too lazy now.
 }
 
@@ -27,7 +27,7 @@ std::string Node::getPath() {
     return path_;
 }
 
-int Node::getDepth() {
+int Node::getDepth() const {
     return depth_;
 }
 

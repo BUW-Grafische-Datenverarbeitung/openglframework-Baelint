@@ -18,16 +18,16 @@ private: //variables I guess
 
 public:
     Node() = default;
-    Node(std::string const& name);
+    explicit Node(std::string const& name);
     ~Node() = default; // i forgor why the heck the destructor is needed, but everywhere I looked in raytracer I left it like this
 
     Node getParent();
-    void setParent(Node const parent);
-    Node getChild(std::string childName);
+    void setParent(const Node& parent);
+    Node getChild(std::string const& childName);
     std::list<Node> getChildren();
     std::string getName();
     std::string getPath();
-    int getDepth();
+    int getDepth() const;
     glm::mat4 getLocalTransform();
     void setLocalTransform(glm::mat4 const& localTransform);
     glm::mat4 getWorldTransform();
