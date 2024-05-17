@@ -8,7 +8,7 @@
 class Node{
 
 private: //variables I guess
-    Node parent_;
+    Node* parent_;
     std::list<Node> children_;
     std::string name_;
     std::string path_;
@@ -18,11 +18,12 @@ private: //variables I guess
 
 public:
     Node() = default;
-    explicit Node(std::string const& name);
+    explicit Node(std::string const &name);
+    explicit Node(std::string const &name, Node* &parent);
     ~Node() = default; // i forgor why the heck the destructor is needed, but everywhere I looked in raytracer I left it like this
 
-    Node getParent();
-    void setParent(const Node& parent);
+    Node* getParent();
+    void setParent(Node* parent);
     Node getChild(std::string const& childName);
     std::list<Node> getChildren();
     std::string getName();

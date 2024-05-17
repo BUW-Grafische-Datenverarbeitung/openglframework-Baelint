@@ -9,6 +9,8 @@
 
 class GeometryNode : public Node{
 private:
+    GeometryNode() : Node(<#initializer#>, <#initializer#>) {}
+
     model geometry_;
 
 public:
