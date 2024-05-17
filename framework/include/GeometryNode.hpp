@@ -5,9 +5,14 @@
 #include "string"
 #include "list"
 #include <glm/glm.hpp>
+#include "model.hpp"
 
 class GeometryNode : public Node{
 private:
-    //model datatype, what?
+    model geometry_;
+
+public:
+    model &getGeometry();
+    void setGeometry(const model &geometry);
 };
 #endif //OPENGL_FRAMEWORK_GEOMETRYNODE_HPP
