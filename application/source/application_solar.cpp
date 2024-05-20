@@ -21,12 +21,6 @@ using namespace gl;
 
 #include <iostream>
 
-double prev_x = 0.0f;
-double prev_y = 0.0f;
-double horiz_angle = 0.0f;
-double vert_angle = 0.0f;
-bool first_time_m = true;
-
 ApplicationSolar::ApplicationSolar(std::string const& resource_path)
  :Application{resource_path}
  ,planet_object{}
@@ -167,32 +161,12 @@ void ApplicationSolar::keyCallback(int key, int action, int mods) {
 //handle delta mouse movement input
 void ApplicationSolar::mouseCallback(double pos_x, double pos_y) {
   // mouse handling
-    if (first_time_m)
-    {
-        prev_x = pos_x;
-        prev_y = pos_y;
-        first_time_m = false;
-    }
-    float xoff = pos_x - prev_x;
-    float yoff = pos_y - prev_y; // need to reverse?
-    prev_x = pos_x;
-    prev_y = pos_y;
 
-    // object?.    camera_Node::addFov(xoff);
-    //object?.     camera_Node::addPitch(yoff);
-
-    horiz_angle += xoff * 0.5; 
-    vert_angle += yoff * 0.5;
-    if (vert_angle > 90) vert_angle = 90; // no out of bounds
-    if (vert_angle < -90) vert_angle = -90;
-
-
-    glm::vec3 front;
-   //probably better to put that into camera_node as an extra function? make it actually work
-   // front.x = cos(glm::radians(camera_Node::getYaw)) * cos(glm::radians(camera_Node::getPitch));
-   // front.y = sin(glm::radians(camera_Node::getPitch));
-   // front.z = sin(glm::radians(camera_Node::getYaw)) * cos(glm::radians(camera_Node::getPitch));
-    
+   // using x_pos and glm::rotate to rotate view position, using m_view_tansform from line 33
+    m_view_transform = glm::rotate(m_view_transform, glm::radians(float(pos_x / 50)), glm::vec3{ 0.0f, -1.0f, 0.0f });
+    // using y_pos
+    m_view_transform = glm::rotate(m_view_transform, glm::radians(float(pos_y / 50)), glm::vec3{ -1.0f, 0.0f, 0.0f });
+    uploadView(); //dont forget to update!
 }
 
 //handle resizing
@@ -207,7 +181,4 @@ void ApplicationSolar::resizeCallback(unsigned width, unsigned height) {
 // exe entry point
 int main(int argc, char* argv[]) {
   Application::run<ApplicationSolar>(argc, argv, 3, 2);
-  glLoadIdentity();
-  glRotatef(vert_angle, 1, 0, 0);
-  glRotatef(horiz_angle, 0, 1, 0);
 }
