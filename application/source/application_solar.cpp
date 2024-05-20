@@ -142,7 +142,7 @@ void ApplicationSolar::initializeGeometry() {
 // handle key input
 void ApplicationSolar::keyCallback(int key, int action, int mods) {
 
-  //float Speed = 2.5 * deltaTime;  // need to implement delta time, move cam * speed
+  //w a s d press/hold -> transforms view ^^ important to see if its positive or negative transformation depending on direction
   if (key == GLFW_KEY_W  && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
     m_view_transform = glm::translate(m_view_transform, glm::fvec3{0.0f, 0.0f, -0.1f});
     uploadView();
@@ -151,8 +151,17 @@ void ApplicationSolar::keyCallback(int key, int action, int mods) {
     m_view_transform = glm::translate(m_view_transform, glm::fvec3{0.0f, 0.0f, 0.1f});
     uploadView();
   }
-
-  // this works with W and S, doesnt do anything yet? do i still connect it to the cam?
+  
+  else if (key == GLFW_KEY_A && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+      m_view_transform = glm::translate(m_view_transform, glm::fvec3{ -0.1f, 0.0f, 0.0f });
+      uploadView();
+  }
+  
+  else if (key == GLFW_KEY_D && (action == GLFW_PRESS || action == GLFW_REPEAT)) {
+      m_view_transform = glm::translate(m_view_transform, glm::fvec3{ 0.1f, 0.0f, 0.0f });
+      uploadView();
+  }
+  //this should work like that!
 }
 
 //handle delta mouse movement input

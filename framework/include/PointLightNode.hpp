@@ -9,7 +9,7 @@
 class PointLightNode : public Node{
 
 private:
-    PointLightNode() : Node(<#initializer#>, <#initializer#>) {}
+    //PointLightNode() : Node(<#initializer#>, <#initializer#>) {}
 
     glm::vec3 color_;
     float intensity_;

@@ -7,7 +7,7 @@ struct camera_Node : public Node //usally used for smaller/easier things, defaul
                                  //Added it being a child of Node.
 {
 private:
-    camera_Node() : Node(<#initializer#>, <#initializer#>) {}
+    //camera_Node() : Node(<#initializer#>, <#initializer#>) {}
 
     bool isPerspective = true; // or better false? don't want to leave it uninitialized to avoid mistakes calling an undef
 	bool isEnabled = true;
