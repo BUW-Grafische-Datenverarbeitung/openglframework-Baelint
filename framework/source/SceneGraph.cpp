@@ -33,6 +33,7 @@ std::vector<std::string> Planets {
         "Pluto"
 };
 
+// what about Moons? Could set Moons as Children of Planets, so we can also define their names here? (look at Figure 2 in Assignment 1)
 SceneGraph setupSolarSystem() {
     SceneGraph sceneGraph{};
 

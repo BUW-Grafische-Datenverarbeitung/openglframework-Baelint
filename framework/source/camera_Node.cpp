@@ -1,5 +1,7 @@
 #include "camera_Node.h"
 
+
+//all WIP
 bool camera_Node::getPerspective() const
 {
 	return isPerspective;
@@ -18,8 +20,13 @@ void camera_Node::setProjectionMat(glm::mat4 const& matrix) //TODO: lookup const
 	projectionMatrix = matrix;
 }
 
-void camera_Node::addYaw(float add) { yaw += add; }
-float camera_Node::getYaw() const { return yaw; }
+const glm::mat4& camera_Node::getProjectionMat() const
+{
+	return projectionMatrix;
+}
 
-void camera_Node::addPitch(float add) { pitch += add; }
-float camera_Node::getPitch() const { return pitch; }
+//void camera_Node::addYaw(float add) { yaw += add; }
+//float camera_Node::getYaw() const { return yaw; }
+
+//void camera_Node::addPitch(float add) { pitch += add; }
+//float camera_Node::getPitch() const { return pitch; }

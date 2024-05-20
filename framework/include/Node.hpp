@@ -21,6 +21,7 @@ public:
     explicit Node(std::string const &name);
     explicit Node(std::string const &name, Node* &parent);
     ~Node() = default; // i forgor why the heck the destructor is needed, but everywhere I looked in raytracer I left it like this
+    // It's there to free up memory space! Its automatically called when it goes out of scope so it doesnt eat all of the space in the background!
 
     Node* getParent();
     void setParent(Node* parent);

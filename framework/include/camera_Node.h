@@ -13,23 +13,25 @@ private:
 	bool isEnabled = true;
 	glm::mat4 projectionMatrix = glm::mat4(1.0f);
 
-	glm::vec3 cameraPos;		//using for wasd
-	glm::vec3 cameraFront;
-	glm::vec3 cameraUp;
-	float yaw = -90.0f;			//using for rotation, yaw and pitch? roll?
-	float pitch = 0.0f;
-	float fov = 45.0f;
+	//glm::vec3 cameraPos;		//using for wasd, WIP
+	//glm::vec3 cameraFront;
+	//glm::vec3 cameraUp;
+	//float yaw = -90.0f;			//using for rotation, yaw and pitch? roll?
+	//float pitch = 0.0f;			//in Ass1 its stated to use x and y movements using mouseCall- back function
+	//float fov = 45.0f;
 
 public:
-	void addYaw(float add);
-	float getYaw() const;
+	//void addYaw(float add);
+	//float getYaw() const;
 
-	void addPitch(float add);
-	float getPitch() const;
+	//void addPitch(float add);
+	//float getPitch() const;
 
 
+	//all WIP
 	bool getPerspective() const;
 	bool getEnabled() const;
+	const glm::mat4& getProjectionMat() const;
 
 	void setEnabled(bool boolean);
 	void setProjectionMat(glm::mat4 const& matrix); //TODO: lookup const ref
