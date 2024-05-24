@@ -21,18 +21,6 @@ Node const &SceneGraph::getRoot() {
     return root_;
 }
 
-std::vector<std::string> Planets {
-        "Mercury",
-        "Venus",
-        "Earth",
-        "Mars",
-        "Jupiter",
-        "Saturn",
-        "Uranus",
-        "Neptune",
-        "Pluto"
-};
-
 // what about Moons? Could set Moons as Children of Planets, so we can also define their names here? (look at Figure 2 in Assignment 1)
 SceneGraph setupSolarSystem() {
     SceneGraph sceneGraph{};

@@ -1,27 +1,28 @@
 #include "Node.hpp"
 #include <algorithm>
+#include <utility>
 
 
-Node::Node(const std::string &name): parent_{nullptr}, name_{name} {}
+Node::Node(std::string name): parent_{nullptr}, name_{std::move(name)} {}
 
 
-Node::Node(std::string const &name, Node* &parent) : name_{name }, parent_(parent) {}
+Node::Node(std::string name, std::shared_ptr<Node> parent) : parent_(parent), name_{std::move(name )} {}
 
 
-Node* Node::getParent() {
+std::shared_ptr<Node> Node::getParent() {
     return parent_;
 }
 
-void Node::setParent(Node* parent) {
-parent_ = parent;
+void Node::setParent(std::shared_ptr<Node> parent) {
+parent_ = std::move(parent);
 }
 
-Node Node::getChild(std::string const& searchedName) {
-    auto searchedChild = std::find_if(children_.begin(), children_.end(), [searchedName] (Node const& child) {return searchedName == child.name_;});
+std::shared_ptr<Node> Node::getChild(std::string const& searchedName) {
+    auto searchedChild = std::find_if(children_.begin(), children_.end(),[searchedName] (std::shared_ptr<Node> child) {return searchedName == child.name_;});
     return *searchedChild;
 }
 
-std::list<Node> Node::getChildren() {
+std::vector<std::shared_ptr<Node>> Node::getChildren() {
     return children_;
 }
 
