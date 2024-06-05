@@ -35,7 +35,7 @@ public:
     void setLocalTransform(glm::mat4 const& localTransform);
     glm::mat4 getWorldTransform();
     void setWorldTransform(glm::mat4 const& localTransform);
-    void addChild(Node const& child);
-    void removeChild(std::string childName);
+    void addChild(const std::shared_ptr<Node>& child);
+    void removeChild(const std::string& childName);
 };
 #endif //OPENGL_FRAMEWORK_NODE_HPP

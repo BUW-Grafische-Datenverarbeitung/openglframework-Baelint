@@ -16,12 +16,12 @@ public:
     }
 private:
     std::string name_;
-    Node root_;
+    std::shared_ptr<Node> root_;
 public:
     std::string getName() const;
-    Node const& getRoot(); //TODO: lookup const correctness for complex datatypes like objects regarding functions/getters
+    std::shared_ptr<Node> &getRoot(); //TODO: lookup const correctness for complex datatypes like objects regarding functions/getters
     void setName(std::string new_name);  //TODO: lookup const correctness and when to use ref for setters, usally const& for complex things in constructor, but here?
-    void setRoot(Node const& new_root);
+    void setRoot(std::shared_ptr<Node> &new_root);
     SceneGraph setupSolarSystem();
 
 };

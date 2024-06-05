@@ -81,7 +81,7 @@ void ApplicationSolar::uploadUniforms() {
   uploadProjection();
 }
 
-///////////////////////////// intialisation functions /////////////////////////
+///////////////////////////// initialisation functions /////////////////////////
 // load shader sources
 void ApplicationSolar::initializeShaderPrograms() {
   // store shader program objects in container

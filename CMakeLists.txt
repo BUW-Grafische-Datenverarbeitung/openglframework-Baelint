@@ -69,6 +69,7 @@ if(NOT APPLE)
   if(BUILD_EXAMPLES) 
     add_executable(1_fixed application/source/application_fixed.cpp framework/include/Node.hpp framework/include/PointLightNode.hpp framework/include/PointLightNode.hpp framework/include/GeometryNode.hpp
             framework/include/constants.h
+            framework/include/constants.h
             framework/include/constants.h)
     target_link_libraries(1_fixed framework)
 

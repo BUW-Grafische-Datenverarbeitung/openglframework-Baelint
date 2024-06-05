@@ -3,10 +3,10 @@
 #include <utility>
 
 
-Node::Node(std::string name): parent_{nullptr}, name_{std::move(name)} {}
+Node::Node(std::string name): parent_{nullptr}, name_{std::move(name)}, depth_{0} {}
 
 
-Node::Node(std::string name, std::shared_ptr<Node> parent) : parent_(parent), name_{std::move(name )} {}
+Node::Node(std::string name, std::shared_ptr<Node> parent) : parent_(std::move(parent)), name_{std::move(name )}, depth_{0} {}
 
 
 std::shared_ptr<Node> Node::getParent() {
@@ -18,7 +18,7 @@ parent_ = std::move(parent);
 }
 
 std::shared_ptr<Node> Node::getChild(std::string const& searchedName) {
-    auto searchedChild = std::find_if(children_.begin(), children_.end(),[searchedName] (std::shared_ptr<Node> child) {return searchedName == child.name_;});
+    auto searchedChild = std::find_if(children_.begin(), children_.end(),[searchedName] (std::shared_ptr<Node> child) {return searchedName == child -> name_;});
     return *searchedChild;
 }
 
@@ -54,12 +54,13 @@ void Node::setWorldTransform(const glm::mat4 &worldTransform) {
     worldTransform_ = worldTransform;
 }
 
-void Node::addChild(const Node &child) {
-    children_.push_front(child);
+void Node::addChild(const std::shared_ptr<Node>& child) {
+    children_.push_back(child);
 }
 
-void Node::removeChild(std::string delete_child) {
-    auto found_child = std::remove_if(children_.begin(), children_.end(), [delete_child] (Node const& child) {return delete_child == child.name_;});
+void Node::removeChild(const std::string& delete_child) {
+    auto found_child = std::remove_if(children_.begin(), children_.end(), [delete_child] (
+            const std::shared_ptr<Node>& child) {return delete_child == child -> name_;});
 }
 
 
