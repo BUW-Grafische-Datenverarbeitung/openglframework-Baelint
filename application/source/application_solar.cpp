@@ -6,6 +6,8 @@
 #include "model_loader.hpp"
 
 #include "camera_Node.h"
+#include "PointLightNode.hpp"
+#include "SceneGraph.h"
 
 #include <glbinding/gl/gl.h>
 // use gl definitions from glbinding 
@@ -26,9 +28,17 @@ ApplicationSolar::ApplicationSolar(std::string const& resource_path)
  ,planet_object{}
  ,m_view_transform{glm::translate(glm::fmat4{}, glm::fvec3{0.0f, 0.0f, 4.0f})}
  ,m_view_projection{utils::calculate_projection_matrix(initial_aspect_ratio)}
+ ,sceneGraph()
 {
   initializeGeometry();
   initializeShaderPrograms();
+
+    // fill map with all necessary objects, so they can be accessed by name
+    std::map<std::string ,model_object> model_objects {
+            std::make_pair("planet-object", planet_object),
+    };
+    // create graph hierarchy
+    sceneGraph.setupSolarSystem(model_objects, resource_path);
 }
 
 ApplicationSolar::~ApplicationSolar() {
@@ -38,8 +48,18 @@ ApplicationSolar::~ApplicationSolar() {
 }
 
 void ApplicationSolar::render() const {
-  // bind shader to upload uniforms
-  glUseProgram(m_shaders.at("planet").handle);
+
+    std::shared_ptr<PointLightNode> sun_light = std::static_pointer_cast<PointLightNode>(sceneGraph.getRoot()->getChild("Planet-Sun-Holder"));
+    glUseProgram(m_shaders.at("planet").handle);
+    gl::glUniform3fv(m_shaders.at("planet").u_locs.at("LightColor"),
+                     1, glm::value_ptr(sun_light->getColor()));
+
+    gl::glUniform3fv(m_shaders.at("planet").u_locs.at("LightPosition"),
+                     1, glm::value_ptr(sun_light->getWorldTransform()[3]));
+
+    gl::glUniform1f(m_shaders.at("planet").u_locs.at("LightIntensity"),
+                    sun_light->getIntensity());
+
 
   glm::fmat4 model_matrix = glm::rotate(glm::fmat4{}, float(glfwGetTime()), glm::fvec3{0.0f, 1.0f, 0.0f});
   model_matrix = glm::translate(model_matrix, glm::fvec3{0.0f, 0.0f, -1.0f});

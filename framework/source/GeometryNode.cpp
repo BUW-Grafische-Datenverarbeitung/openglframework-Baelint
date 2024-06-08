@@ -1,10 +1,10 @@
 #include "GeometryNode.hpp"
 
-model &GeometryNode::getGeometry() {
+model_object &GeometryNode::getGeometry() {
     return geometry_;
 }
 
-void GeometryNode::setGeometry(const model &geometry) {
+void GeometryNode::setGeometry(const model_object &geometry) {
     geometry_ = geometry;
 
 }
