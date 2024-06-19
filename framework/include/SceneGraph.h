@@ -1,7 +1,9 @@
 #ifndef SCENEGRAPH_HPP
 #define SCENEGRAPH_HPP
 #include <iostream>
+#include <map>
 #include "node.hpp"
+#include "structs.hpp"
 class SceneGraph
 {
 public:

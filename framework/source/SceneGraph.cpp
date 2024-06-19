@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+
 std::string SceneGraph::getName() const
 {
 	return name_;
