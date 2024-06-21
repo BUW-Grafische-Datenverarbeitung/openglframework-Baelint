@@ -27,6 +27,11 @@ const std::shared_ptr<Node> & SceneGraph::getRoot() const {
     return root_;
 }
 
+SceneGraph& SceneGraph::operator=(const SceneGraph &) {
+
+}
+
+
 // what about Moons? Could set Moons as Children of Planets, so we can also define their names here? (look at Figure 2 in Assignment 1)
 SceneGraph setupSolarSystem(std::map<std::string, model_object> const& model_objects, std::string const& resource_path) {
     SceneGraph sceneGraph{};

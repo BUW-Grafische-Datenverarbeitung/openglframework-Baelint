@@ -9,7 +9,7 @@ class SceneGraph
 public:
     SceneGraph() = default;                    // constructor
     SceneGraph(SceneGraph const&);     // no implementation
-    void operator=(SceneGraph const&); // no implementation
+    SceneGraph& operator=(SceneGraph const&); // no implementation
 
     static SceneGraph& getInstance()  //setup it being a singleton
     {
@@ -25,7 +25,8 @@ public:
     void setName(std::string new_name);  //TODO: lookup const correctness and when to use ref for setters, usally const& for complex things in constructor, but here?
     void setRoot(std::shared_ptr<Node> &new_root);
 
-    SceneGraph setupSolarSystem(std::map<std::string, model_object> const& model_objects,  std::string const& resource_path);
-
 };
+
+SceneGraph setupSolarSystem(std::map<std::string, model_object> const& model_objects,  std::string const& resource_path);
+
 #endif

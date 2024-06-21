@@ -8,6 +8,7 @@
 #include "camera_Node.h"
 #include "PointLightNode.hpp"
 #include "SceneGraph.h"
+#include "model.hpp"
 
 #include <glbinding/gl/gl.h>
 // use gl definitions from glbinding 
@@ -28,6 +29,7 @@ ApplicationSolar::ApplicationSolar(std::string const& resource_path)
  ,planet_object{}
  ,m_view_transform{glm::translate(glm::fmat4{}, glm::fvec3{0.0f, 0.0f, 4.0f})}
  ,m_view_projection{utils::calculate_projection_matrix(initial_aspect_ratio)}
+ ,post_process_fbo{}
  ,sceneGraph()
 {
   initializeGeometry();
@@ -37,8 +39,9 @@ ApplicationSolar::ApplicationSolar(std::string const& resource_path)
     std::map<std::string ,model_object> model_objects {
             std::make_pair("planet-object", planet_object),
     };
+
     // create graph hierarchy
-    sceneGraph.setupSolarSystem(model_objects, resource_path);
+    sceneGraph = setupSolarSystem(model_objects, resource_path);
 }
 
 ApplicationSolar::~ApplicationSolar() {
@@ -50,6 +53,7 @@ ApplicationSolar::~ApplicationSolar() {
 void ApplicationSolar::render() const {
 
     std::shared_ptr<PointLightNode> sun_light = std::static_pointer_cast<PointLightNode>(sceneGraph.getRoot()->getChild("Planet-Sun-Holder"));
+
     glUseProgram(m_shaders.at("planet").handle);
     gl::glUniform3fv(m_shaders.at("planet").u_locs.at("LightColor"),
                      1, glm::value_ptr(sun_light->getColor()));
@@ -76,6 +80,7 @@ void ApplicationSolar::render() const {
 
   // draw bound vertex array using bound shader
   glDrawElements(planet_object.draw_mode, planet_object.num_elements, model::INDEX.type, NULL);
+
 }
 
 void ApplicationSolar::uploadView() {
