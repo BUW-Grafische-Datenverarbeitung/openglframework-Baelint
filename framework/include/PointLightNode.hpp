@@ -1,7 +1,7 @@
 #ifndef OPENGL_FRAMEWORK_POINTLIGHTNODE_HPP
 #define OPENGL_FRAMEWORK_POINTLIGHTNODE_HPP
 
-#include "node.hpp"
+#include "Node.hpp"
 #include "string"
 #include "list"
 #include <glm/glm.hpp>
@@ -22,9 +22,9 @@ public:
             color_{color},
             intensity_{intensity} {};
 
-    glm::vec3 getColor();
+    const glm::vec3& getColor() const;
     void setColor(glm::vec3 const& color);
-    float getIntensity();
+    float getIntensity() const;
     void setIntensity(float intensity);
 private:
 

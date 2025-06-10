@@ -14,6 +14,9 @@ public:
     //default constructor
     GeometryNode() = default;
 
+    model_object &getGeometry();
+    void setGeometry(const model_object &geometry);
+
     GeometryNode(std::shared_ptr<Node> parent, std::string const& name):
             Node::Node(name, std::move(parent)),
             geometry_{}
@@ -27,13 +30,9 @@ public:
             geometry_{geometry}
     {};
 
+    void renderNode(std::map<std::string, shader_program> const& m_shaders, glm::mat4 const& m_view_transform) override;
+
 private:
-
     model_object geometry_;
-
-
-
-    model_object &getGeometry();
-    void setGeometry(const model_object &geometry);
 };
 #endif //OPENGL_FRAMEWORK_GEOMETRYNODE_HPP

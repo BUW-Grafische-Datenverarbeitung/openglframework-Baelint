@@ -2,18 +2,17 @@
 #define SCENEGRAPH_HPP
 #include <iostream>
 #include <map>
-#include "node.hpp"
+#include "Node.hpp"
 #include "structs.hpp"
+
 class SceneGraph
 {
 public:
     SceneGraph() = default;                    // constructor
-    SceneGraph(SceneGraph const&);     // no implementation
-    SceneGraph& operator=(SceneGraph const&); // no implementation
 
     static SceneGraph& getInstance()  //setup it being a singleton
     {
-        static SceneGraph    instance; // gets destroyed                              
+        static SceneGraph    instance; // gets destroyed
         return instance;
     }
 private:
@@ -21,9 +20,9 @@ private:
     std::shared_ptr<Node> root_;
 public:
     std::string getName() const;
-    const std::shared_ptr<Node> & getRoot() const; //TODO: lookup const correctness for complex datatypes like objects regarding functions/getters
-    void setName(std::string new_name);  //TODO: lookup const correctness and when to use ref for setters, usally const& for complex things in constructor, but here?
-    void setRoot(std::shared_ptr<Node> &new_root);
+    const std::shared_ptr<Node> & getRoot() const;
+    void setName(std::string new_name);
+    void setRoot(const std::shared_ptr<Node> &new_root);
 
 };
 

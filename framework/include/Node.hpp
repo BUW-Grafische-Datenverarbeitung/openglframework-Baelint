@@ -1,50 +1,70 @@
 #ifndef OPENGL_FRAMEWORK_NODE_HPP
 #define OPENGL_FRAMEWORK_NODE_HPP
 
-#include "string"
-#include "vector"
+#include <utility>
+#include <vector>
+#include <iostream>
+#include <functional>
 #include <glm/glm.hpp>
 #include <memory>
+#include "structs.hpp"
 
-class Node{
+//dont load gl bindings from glfw
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
 
-private: //variables I guess
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/matrix_inverse.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+class Node {
+private:
     std::shared_ptr<Node> parent_;
     std::vector<std::shared_ptr<Node>> children_;
     std::string name_;
     std::string path_;
-    int depth_;
+    int depth_ = 0;
+
     glm::mat4 localTransform_ = glm::mat4(1.0f);
     glm::mat4 worldTransform_ = glm::mat4(1.0f);
-    glm::vec3 color_;
+    glm::vec3 color_ = glm::vec3(1.0f);
 
 public:
     Node() = default;
     explicit Node(std::string name);
     explicit Node(std::string name, std::shared_ptr<Node> parent);
     explicit Node(std::string name, std::shared_ptr<Node> parent, const glm::vec3& color);
-    ~Node() = default; // i forgor why the heck the destructor is needed, but everywhere I looked in raytracer I left it like this
-    // It's there to free up memory space! Its automatically called when it goes out of scope so it doesnt eat all of the space in the background!
+    ~Node() = default;
 
-    std::shared_ptr<Node> getParent();
+    // Getters (const correctness)
+    std::shared_ptr<Node> getParent() const;
     void setParent(std::shared_ptr<Node> parent);
-    std::shared_ptr<Node> getChild(std::string const& searchedName);
-    std::vector<std::shared_ptr<Node>> getChildren();
-    std::string getName();
-    std::string getPath();
+
+    std::shared_ptr<Node> getChild(std::string const& searchedName) const;
+    const std::vector<std::shared_ptr<Node>>& getChildren() const;
+
+    const std::string& getName() const;
+    const std::string& getPath() const;
     int getDepth() const;
 
-    glm::mat4 getLocalTransform();
-    void setLocalTransform(glm::mat4 const& localTransform);
+    const glm::mat4& getLocalTransform() const;
+    void setLocalTransform(const glm::mat4& localTransform);
 
-    glm::mat4 getWorldTransform();
-    void setWorldTransform(glm::mat4 const& localTransform);
+    glm::mat4 getWorldTransform() const;
+    void setWorldTransform(const glm::mat4& worldTransform);
 
+    const glm::vec3& getColor() const;
+    void setColor(const glm::vec3& color);
+
+    virtual void renderNode(std::map<std::string, shader_program> const& m_shaders, glm::mat4 const& m_view_transform);
+
+    // Scene hierarchy
     void addChild(const std::shared_ptr<Node>& child);
     void removeChild(const std::string& childName);
 
-    void translate(glm::vec3 const& translation);
-    void rotate(float angle);
+    // Transform utilities
+    void translate(const glm::vec3& translation);
+    void rotate(float angle); // You might want to clarify axis later
     void scale(float scale);
 };
 #endif //OPENGL_FRAMEWORK_NODE_HPP
