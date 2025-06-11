@@ -14,7 +14,7 @@ std::vector<std::pair<std::string, float>> PLANET_REVOLUTION {
         std::make_pair("Planet-Saturn-Holder", 0.003f),
         std::make_pair("Planet-Uranus-Holder", -0.001f),
         std::make_pair("Planet-Neptune-Holder", 0.0009f),
-        std::make_pair("Planet-Pluto-Holder", 0.0006f)
+        std::make_pair("Planet-Notplanet Pluto-Holder", 0.0006f)
 };
 
 // Constructors
@@ -118,7 +118,13 @@ void Node::removeChild(const std::string& childName) {
 }
 
 void Node::renderNode(std::map<std::string, shader_program> const& m_shaders, glm::mat4 const& m_view_transform) {
+    //get value to compute speed of revolution around the sun
+    float revolution_value = std::find_if(PLANET_REVOLUTION.begin(), PLANET_REVOLUTION.end(), [&] (std::pair<std::string, float> const& pair) {return name_ == pair.first; })->second;
+    //compute rotation value
+    glm::mat4 rotation_mat = glm::rotate(glm::fmat4{}, glm::radians(revolution_value), glm::fvec3{0.0f, 1.0f, 0.0f});
+    setLocalTransform(rotation_mat * getLocalTransform());
     //call function also for children of node
+
     for (auto const& child : children_) {
         child->renderNode(m_shaders, m_view_transform);
     }

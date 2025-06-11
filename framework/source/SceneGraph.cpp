@@ -49,6 +49,10 @@ SceneGraph setupSolarSystem(std::map<std::string, model_object> const& model_obj
     sun_light_node->addChild(sun_geometry_node);
     //add sun node as child to root
     root->addChild(sun_light_node);
+    //Create star Geometry
+    auto star_geometry = std::make_shared<GeometryNode>(root, "Star-Geometry", model_objects.at("star-object"));
+    //Add it to root
+    root->addChild(star_geometry);
 
     //for all planets do
     for (size_t i = 0; i <= PLANET_NAMES.size() - 1; ++i) {
@@ -58,7 +62,6 @@ SceneGraph setupSolarSystem(std::map<std::string, model_object> const& model_obj
         auto geometry_node = std::make_shared<GeometryNode>(planet_node, "Planet-" + PLANET_NAMES[i] + "-Geometry",
                                                             model_objects.at("planet-object"), PLANET_COLOR[i]);
 
-        std::cout << planet_node->getName() << ": " << glm::to_string(planet_node->getWorldTransform()[3]) << "\n";
         //add geometry node as a child to planet node
         planet_node->addChild(geometry_node);
         //add planet as a child to sun node
@@ -67,7 +70,6 @@ SceneGraph setupSolarSystem(std::map<std::string, model_object> const& model_obj
         planet_node -> translate(glm::vec3{PLANET_DISTANCES[i], 0.0f, 0.0f});
         //change size of planet
         planet_node -> scale(PLANET_SIZES[i]);
-        std::cout << planet_node->getName() << ": " << glm::to_string(planet_node->getWorldTransform()[3]) << "\n";
 
     }
 

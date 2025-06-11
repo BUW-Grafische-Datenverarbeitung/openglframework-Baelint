@@ -23,7 +23,6 @@ class ApplicationSolar : public Application {
 
   // draw all objects
   void render() const;
-  void renderNode(const std::shared_ptr<Node>& node) const;
 
  protected:
   void initializeShaderPrograms();
