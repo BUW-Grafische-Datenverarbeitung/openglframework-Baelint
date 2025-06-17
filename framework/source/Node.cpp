@@ -130,6 +130,19 @@ void Node::renderNode(std::map<std::string, shader_program> const& m_shaders, gl
     }
 }
 
+const glm::vec3 &Node::getColor() const {
+    return color_;
+}
+
+void Node::setColor(const glm::vec3 &color) {
+    // this conversion is done so that RGB ranges between 0 - 255 can be used in instantiation
+    glm::vec3 rgbColor{color};
+    rgbColor.x = color.x / 255;
+    rgbColor.y = color.y / 255;
+    rgbColor.z = color.z / 255;
+    color_ = rgbColor;
+}
+
 // Transformation utilities
 void Node::translate(const glm::vec3& translation) {
     setLocalTransform(glm::translate(localTransform_, translation));
