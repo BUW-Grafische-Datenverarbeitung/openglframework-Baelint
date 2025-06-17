@@ -38,8 +38,8 @@ public:
             name_{std::move(name)},
             path_{},
             depth_{},
-            local_transform_{},
-            world_transform_{},
+            localTransform_{},
+            worldTransform_{},
             color_{0.5, 0.5, 0.5}
     {};
     explicit Node(std::string name, std::shared_ptr<Node> parent, const glm::vec3& color):
@@ -48,8 +48,8 @@ public:
             name_{std::move(name)},
             path_{},
             depth_{},
-            local_transform_{},
-            world_transform_{},
+            localTransform_{},
+            worldTransform_{},
             color_{color.x / 255, color.y / 255, color.z / 255}
     {};
     ~Node() = default;
@@ -75,10 +75,6 @@ public:
     void setColor(const glm::vec3& color);
 
     virtual void renderNode(std::map<std::string, shader_program> const& m_shaders, glm::mat4 const& m_view_transform);
-
-    const glm::vec3 &getColor() const;
-
-    void setColor(const glm::vec3 &color);
 
     // Scene hierarchy
     void addChild(const std::shared_ptr<Node>& child);

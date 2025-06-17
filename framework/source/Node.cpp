@@ -21,13 +21,6 @@ std::vector<std::pair<std::string, float>> PLANET_REVOLUTION {
 Node::Node(std::string name)
         : parent_{nullptr}, name_{std::move(name)}, depth_{0} {}
 
-Node::Node(std::string name, std::shared_ptr<Node> parent)
-        : parent_(std::move(parent)), name_{std::move(name)}, depth_{0} {}
-
-Node::Node(std::string name, std::shared_ptr<Node> parent, const glm::vec3& color)
-        : parent_(std::move(parent)), name_{std::move(name)}, color_(color) {}
-
-
 // Getters
 std::shared_ptr<Node> Node::getParent() const {
     return parent_;
@@ -96,8 +89,13 @@ const glm::vec3& Node::getColor() const {
     return color_;
 }
 
-void Node::setColor(const glm::vec3& color) {
-    color_ = color;
+void Node::setColor(const glm::vec3 &color) {
+    // this conversion is done so that RGB ranges between 0 - 255 can be used in instantiation
+    glm::vec3 rgbColor{color};
+    rgbColor.x = color.x / 255;
+    rgbColor.y = color.y / 255;
+    rgbColor.z = color.z / 255;
+    color_ = rgbColor;
 }
 
 
@@ -128,19 +126,6 @@ void Node::renderNode(std::map<std::string, shader_program> const& m_shaders, gl
     for (auto const& child : children_) {
         child->renderNode(m_shaders, m_view_transform);
     }
-}
-
-const glm::vec3 &Node::getColor() const {
-    return color_;
-}
-
-void Node::setColor(const glm::vec3 &color) {
-    // this conversion is done so that RGB ranges between 0 - 255 can be used in instantiation
-    glm::vec3 rgbColor{color};
-    rgbColor.x = color.x / 255;
-    rgbColor.y = color.y / 255;
-    rgbColor.z = color.z / 255;
-    color_ = rgbColor;
 }
 
 // Transformation utilities
