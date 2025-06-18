@@ -56,6 +56,11 @@ SceneGraph setupSolarSystem(std::map<std::string, model_object> const& model_obj
 
     //for all planets do
     for (size_t i = 0; i <= PLANET_NAMES.size() - 1; ++i) {
+        //initialize orbit as geometry node
+        auto orbit_geometry = std::make_shared<GeometryNode>(sun_light_node, "Orbit",
+                                                             model_objects.at("orbit-object"));
+        sun_light_node->addChild(orbit_geometry);
+        orbit_geometry->scale(PLANET_DISTANCES[i]);
         //initialize planet as a node
         auto planet_node = std::make_shared<Node>( "Planet-" + PLANET_NAMES[i] + "-Holder", sun_light_node, PLANET_COLOR[i]);
         //initialize geometry node for said planet
@@ -72,6 +77,8 @@ SceneGraph setupSolarSystem(std::map<std::string, model_object> const& model_obj
         planet_node -> scale(PLANET_SIZES[i]);
 
     }
+
+
 
     std::cout << "setupSolarSystem done\n";
     return sceneGraph;

@@ -29,6 +29,7 @@ class ApplicationSolar : public Application {
   void initializeGeometry();
   void initializePlanetGeometry();
   void initializeStarGeometry();
+  void initializeOrbitGeometry();
   // update uniform values
   void uploadUniforms();
   // upload projection matrix
@@ -39,6 +40,7 @@ class ApplicationSolar : public Application {
   // cpu representation of model
   model_object planet_object;
   model_object star_object;
+  model_object orbit_object;
 
   // camera transform matrix
   glm::fmat4 m_view_transform;

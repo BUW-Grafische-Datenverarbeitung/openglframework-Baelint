@@ -60,6 +60,22 @@ void GeometryNode::renderStars(const std::map<std::string, shader_program> &m_sh
     glDrawArrays(GL_POINTS, 0,geometry_.num_elements);
 }
 
+/// renders orbits using glDrawArray
+/// \param m_shaders shader information
+/// \param m_view_transform camera information
+void GeometryNode::renderOrbit(const std::map<std::string, shader_program> &m_shaders,
+                               const glm::mat4 &m_view_transform) const {
+    glUseProgram(m_shaders.at("orbit").handle);
+    glm::fmat4 model_matrix = getWorldTransform();
+
+    glUniformMatrix4fv(m_shaders.at("orbit").u_locs.at("ModelMatrix"),
+                       1, GL_FALSE, glm::value_ptr(model_matrix));
+
+    gl::glBindVertexArray(geometry_.vertex_AO);
+
+    glDrawArrays(geometry_.draw_mode,0, geometry_.num_elements);
+}
+
 void GeometryNode::renderNode(const std::map<std::string, shader_program> &m_shaders,
                               const glm::mat4 &m_view_transform) {
 
@@ -67,5 +83,8 @@ void GeometryNode::renderNode(const std::map<std::string, shader_program> &m_sha
         renderPlanet(m_shaders, m_view_transform);
     } else if (name_ == "Star-Geometry") {
         renderStars(m_shaders, m_view_transform);
+    }
+    else if (name_ == "Orbit") {
+        renderOrbit(m_shaders, m_view_transform);
     }
 }

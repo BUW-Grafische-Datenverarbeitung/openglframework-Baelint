@@ -43,6 +43,9 @@ public:
     void renderStars(const std::map<std::string, shader_program> &m_shaders,
                      const glm::mat4 &m_view_transform) const;
 
+    void renderOrbit(const std::map<std::string, shader_program> &m_shaders,
+                     const glm::mat4 &m_view_transform) const;
+
     void renderNode(std::map<std::string, shader_program> const& m_shaders, glm::mat4 const& m_view_transform) override;
 
 private:
