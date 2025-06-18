@@ -66,6 +66,19 @@ ApplicationSolar::~ApplicationSolar() {
 }
 
 void ApplicationSolar::render() const {
+    // things that cannot be handled in geometry node, as it requires information about scene are handled here
+    std::shared_ptr<PointLightNode> sun_light = std::static_pointer_cast<PointLightNode>(sceneGraph.getRoot()->getChild("Planet-Sun-Holder"));
+
+    glUseProgram(m_shaders.at("planet").handle);
+    gl::glUniform3fv(m_shaders.at("planet").u_locs.at("LightColor"),
+                     1, glm::value_ptr(sun_light->getLightColour()));
+
+    gl::glUniform3fv(m_shaders.at("planet").u_locs.at("LightPosition"),
+                     1, glm::value_ptr(sun_light->getWorldTransform()[3]));
+
+    gl::glUniform1f(m_shaders.at("planet").u_locs.at("LightIntensity"),
+                    sun_light->getLightIntensity());
+
     sceneGraph.getRoot()->renderNode(m_shaders, m_view_transform);
 }
 
@@ -93,7 +106,6 @@ void ApplicationSolar::uploadProjection() {
 
 // update uniform locations
 void ApplicationSolar::uploadUniforms() {
-  // bind shader to which to upload uniforms
   // upload uniform values to new locations
   uploadView();
   uploadProjection();
@@ -111,6 +123,13 @@ void ApplicationSolar::initializeShaderPrograms() {
     m_shaders.at("planet").u_locs["ModelMatrix"] = -1;
     m_shaders.at("planet").u_locs["ViewMatrix"] = -1;
     m_shaders.at("planet").u_locs["ProjectionMatrix"] = -1;
+    m_shaders.at("planet").u_locs["PlanetColor"] = -1;
+    m_shaders.at("planet").u_locs["AmbientColor"] = -1;
+    m_shaders.at("planet").u_locs["LightIntensity"] = -1;
+    m_shaders.at("planet").u_locs["LightPosition"] = -1;
+    m_shaders.at("planet").u_locs["LightColor"] = -1;
+    m_shaders.at("planet").u_locs["Cel"] = -1;
+    m_shaders.at("planet").u_locs["CameraPosition"] = -1;
 
     m_shaders.emplace("stars", shader_program{{{GL_VERTEX_SHADER, m_resource_path + "shaders/vao.vert"},
                                                {GL_FRAGMENT_SHADER, m_resource_path + "shaders/vao.frag"}}});
@@ -185,19 +204,17 @@ void ApplicationSolar::initializeStarGeometry() {
         }
     }
 
-    std::cout << stars_vec.size() << std::endl;
-    //
     glGenVertexArrays(1, &star_object.vertex_AO);
     glBindVertexArray(star_object.vertex_AO);
-    //
+
     glGenBuffers(1, &star_object.vertex_BO);
     glBindBuffer(GL_ARRAY_BUFFER, star_object.vertex_BO);
-    //
+
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * STAR_COUNT * 6, stars_vec.data(), GL_STATIC_DRAW);
-    //
+
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 6, nullptr);
-    //
+
     glEnableVertexAttribArray(1);
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE,
                           sizeof(float) * 6, (void*)(sizeof(float) * 3));

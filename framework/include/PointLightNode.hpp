@@ -12,26 +12,25 @@ class PointLightNode : public Node{
 public:
     PointLightNode() = default;
 
-    PointLightNode(glm::vec3 const& color, float intensity):
+    PointLightNode(glm::vec3 const& light_colour, float light_intensity):
             Node(),
-            color_{color},
-            intensity_{intensity} {};
-
-    PointLightNode(std::shared_ptr<Node> parent, std::string const& name, glm::vec3 const& color, float intensity):
+            LightColour_{light_colour},
+            LightIntensity_{light_intensity} {};
+    PointLightNode(std::shared_ptr<Node> parent, std::string const& name, glm::vec3 const& light_colour, float light_intensity):
             Node(name, std::move(parent)),
-            color_{color},
-            intensity_{intensity} {};
+            LightColour_{light_colour},
+            LightIntensity_{light_intensity} {};
 
-    const glm::vec3& getColor() const;
-    void setColor(glm::vec3 const& color);
-    float getIntensity() const;
-    void setIntensity(float intensity);
+    const glm::vec3&getLightColour() const;
+    void setLightColour(const glm::vec3 &lightColour);
+
+    float getLightIntensity() const;
+    void setLightIntensity(float lightIntensity);
+
 private:
 
-
-    glm::vec3 color_;
-    float intensity_;
-
+    glm::vec3 LightColour_ = {1.0f, 1.0f, 1.0f};
+    float LightIntensity_ = 1.0f;
 
 };
 #endif //OPENGL_FRAMEWORK_POINTLIGHTNODE_HPP

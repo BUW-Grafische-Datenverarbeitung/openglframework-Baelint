@@ -18,7 +18,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 class Node {
-private:
+protected:
     std::shared_ptr<Node> parent_;
     std::vector<std::shared_ptr<Node>> children_;
     std::string name_;

@@ -1,17 +1,17 @@
 #include "PointLightNode.hpp"
 
-const glm::vec3& PointLightNode::getColor() const {
-    return color_;
+const glm::vec3& PointLightNode::getLightColour() const {
+    return LightColour_;
 }
 
-void PointLightNode::setColor(const glm::vec3 &color) {
-    color_ = color;
+void PointLightNode::setLightColour(const glm::vec3 &lightColour) {
+    LightColour_ = lightColour;
 }
 
-float PointLightNode::getIntensity() const {
-    return intensity_;
+float PointLightNode::getLightIntensity() const {
+    return LightIntensity_;
 }
 
-void PointLightNode::setIntensity(float intensity) {
-    intensity_ = intensity;
+void PointLightNode::setLightIntensity(float lightIntensity) {
+    LightIntensity_ = lightIntensity;
 }
