@@ -1,3 +1,7 @@
+## Group
+* Lea Höpfner - 121041
+* Bálint Tóth - 123835
+
 ## OpenGLFramework
 is a small cross-platform framework for learning OpenGL programming
 
